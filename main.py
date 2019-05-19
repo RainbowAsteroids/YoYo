@@ -94,9 +94,6 @@ async def on_message(message):
 
     elif message.content.lower() in endings:
         await message.channel.send('yo yo!')
-    
-    elif endswith(message.content.lower()):
-        await message.channel.send('yo yo!')
 
     elif message.content.lower() == 'f':
         await message.channel.send('```css\nF```')
