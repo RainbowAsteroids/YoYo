@@ -22,6 +22,7 @@ f        : says f back
 !yo payload : Lets YoYo yo-yo off of itself *
 !yo help : this
 !yo lock : locks/unlocks certain commands behind the "manage messages" permission *
+!yo git : source code link and credit
 * = requires manage messages permission if server is locked```
 """
 r = re.compile("(?i)yo |yo!|yo\.|yo\?|yo:|yo;") #The regex for the program
