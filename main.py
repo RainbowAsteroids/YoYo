@@ -11,6 +11,7 @@ owner_id = None
 beta_token = ""
 main_token = ""
 token = main_token # bot token
+oauth_url = "https://discordapp.com/api/oauth2/authorize?client_id=550112572792242188&permissions=8&scope=bot"
 muted = []
 payload = []
 unlocked = []
@@ -23,6 +24,7 @@ f        : says f back
 !yo help : this
 !yo lock : locks/unlocks certain commands behind the "manage messages" permission *
 !yo git : source code link and credit
+!yo url : bot url
 * = requires manage messages permission if server is locked```
 """
 r = re.compile("(?i)yo |yo!|yo\.|yo\?|yo:|yo;") #The regex for the program
@@ -44,11 +46,11 @@ async def on_ready():
 @client.event
 async def on_message(message):
     if message.author == client.user and not message.channel.id in payload: return
-    
+
     if message.content.startswith('!yo'):
         msg = message.content[4:]
         if beta: print(f"[INFO]: msg = {msg}")
-        
+
         if msg.startswith('mute'):
             if await permission(message):
                 if not message.channel.id in muted:
@@ -57,15 +59,15 @@ async def on_message(message):
                 else:
                     muted.pop(muted.index(message.channel.id))
                     await message.channel.send("I sexually Identify as an Yo-yo. Ever since I was a boy I dreamed of flying up and down endlessly. People say to me that a person being a Yo-yo is impossible and I'm fucking retarded but I don't care, I'm beautiful. I'm having a plastic surgeon install a circular plastic body and white string. From now on I want you guys to call me \"Yo-yo\" and respect my right to zip around the room back and forth. If you can't accept me you're a yoaphobe and need to check your toy privilege. Thank you for being so understanding.")
-        
+
         elif msg.startswith('help'):
             await message.channel.send(helptext)
-        
+
         elif msg.startswith('close') or msg.startswith('kill'):
-            if message.author.id == owner_id: 
+            if message.author.id == owner_id:
                 await message.channel.send('Sorry guys. It\'s my bedtime and I can\'t stay on much longer.')
                 await client.close()
-        
+
         elif msg.startswith('payload'):
             if await permission(message):
                 if not message.channel.id in payload:
@@ -74,7 +76,7 @@ async def on_message(message):
                 else:
                     payload.pop(payload.index(message.channel.id))
                     await message.channel.send('I don\'t blame you.')
-        
+
         elif msg.startswith('lock'):
             if await permission(message):
                 if not message.channel.id in unlocked:
@@ -83,9 +85,13 @@ async def on_message(message):
                 else:
                     unlocked.pop(unlocked.index(message.channel.id))
                     await message.channel.send('Guys it\'s **over**. The mods are shutting it down.')
+
         elif msg.startswith('git'):
             await message.channel.send(f'Bot created by Rainbow Asteroids: {repo_url}')
-    
+
+        elif msg.startswith('url'):
+            await message.channel.send(oauth_url)
+
     elif 'yo ' in message.content.lower():
         if message.channel.id in muted: return
         yos = len(r.split(message.content))
